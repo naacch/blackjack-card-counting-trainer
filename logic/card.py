@@ -1,18 +1,18 @@
 """ :) """
 
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from PIL import Image
 
 
-class Suit(Enum):
+class Suit(StrEnum):
     CLUBS = 'c'
     DIAMONDS = 'd'
     HEARTS = 'h'
     SPADES = 's'
 
 
-class CardName(Enum):
+class CardName(StrEnum):
     TWO = '2'
     THREE = '3'
     FOUR = '4'
@@ -28,16 +28,16 @@ class CardName(Enum):
     ACE = 'a'
 
 
-@dataclass()
+@dataclass
 class Card:
+    """ card class """
     name: CardName
     suit: Suit
 
     def __str__(self) -> str:
         return f'{self.name.value}{self.suit.value}'
-    
+
+    # TODO manejo de errores
     @property
     def image(self) -> Image:
         return Image.open(f'gui/png/{self.name.value}{self.suit.value}.png')
-    
-    

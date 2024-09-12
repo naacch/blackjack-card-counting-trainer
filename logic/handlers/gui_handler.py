@@ -6,7 +6,7 @@ from PIL import Image
 from tkinter import Widget, messagebox
 from typing import NamedTuple
 from gui import GUI
-from logic.card_strategy import HI_LO # TODO cambiar
+from logic.counting_system import counting_system_options
 from logic.game import get_card_counting_result, generate_card_sequence
 from logic.observers import GameState, StateManager
 
@@ -22,18 +22,22 @@ CARD_IMAGE_SIZE = ImageSize(320, 448)
 class GUIHandler:
     def __init__(self, gui: GUI):
         self.gui = gui
-        self.state_manager = StateManager()
+        self.state_manager = StateManager() # TODO esto lo deberia inicializar aqui o fuera
         self.state_manager.add_observer(self.apply_gui_config)
         
         # joker image
         joker_image = self.create_ctkimage(Image.open('gui/png/joker.png'), CARD_IMAGE_SIZE)
         self.current_image = joker_image
         self.change_widget_image(self.gui.card_label, joker_image)
+
+        # flag
         self.showing_card_sequence = False
         
         # widgets config
         self.gui.start_button.configure(command=lambda: self.start_button_func(500))
         self.gui.entry.bind('<Return>', self.entry_func)
+        self.gui.option_menu.configure(command=self.get_counting_system, values=counting_system_options.keys())
+        self.gui.option_menu.set('Select a counting system.')
 
         self.state_manager.set_state(GameState.NOT_GUESS_TIME)
     
@@ -51,6 +55,9 @@ class GUIHandler:
         self.change_widget_image(self.gui.card_label, card_image)
         self.gui.card_label.after(time_period, self.show_card_sequence, index + 1, time_period)
     
+    def get_counting_system(self, choosen_option) -> None:
+        self.counting_system = counting_system_options[choosen_option]
+
     def start_button_func(self, time_period: int) -> None:
         if self.showing_card_sequence:
             return
@@ -66,8 +73,8 @@ class GUIHandler:
             messagebox.showerror('ERROR', 'Answer must be a integer.')
             return
         guess = int(guess)
-        correct_answer = get_card_counting_result(self.card_sequence, HI_LO)
-        if guess != correct_answer: # TODO hi_lo hardcodeado
+        correct_answer = get_card_counting_result(self.card_sequence, self.counting_system)
+        if guess != correct_answer:
             messagebox.showinfo('', f'Incorrect answer, correct answer is {correct_answer}.')
             return
         messagebox.showinfo('', f'Correct answer, congrats!')

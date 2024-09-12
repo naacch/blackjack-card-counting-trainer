@@ -1,10 +1,10 @@
-from enum import Enum
+from enum import auto, Enum
 from typing import Callable, List
 
 
 class GameState(Enum):
-    NOT_GUESS_TIME = 0
-    GUESS_TIME = 1
+    NOT_GUESS_TIME = auto()
+    GUESS_TIME = auto()
 
 
 class StateManager:
@@ -12,6 +12,7 @@ class StateManager:
         self._observers: List[Callable] = []
         self._state: GameState = GameState.NOT_GUESS_TIME
 
+    # esto lo uso???
     def get_state(self) -> GameState:
         return self._state
 

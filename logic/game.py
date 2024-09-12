@@ -2,25 +2,24 @@
 
 from itertools import product
 from random import choices
-from typing import Dict, List
 from logic.card import Card, CardName, Suit
+from logic.counting_system import CountingSystem
 
 
-CardStrategy = Dict[CardName, int]
-Deck = List[Card]
+Deck = list[Card]
 
 
 def generate_card_sequence(number_cards: int = 10) -> Deck:
     deck = [
         Card(name, suit) 
         for name, suit 
-        in product([name for name in CardName], [suit for suit in Suit])
+        in product(list(CardName), list(Suit))
         ]
     return choices(deck, k=number_cards)
 
 
-def get_card_counting_result(card_sequence: Deck, card_strategy: CardStrategy) -> int:
+def get_card_counting_result(card_sequence: Deck, counting_system: CountingSystem) -> int:
     counter = 0
     for card in card_sequence:
-        counter += card_strategy[card.name]
+        counter += counting_system[card.name]
     return counter

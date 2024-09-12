@@ -1,0 +1,3 @@
+# Blackjack card counting trainer
+A simple application to help users practice card counting techniques for Blackjack. The app will simulate card sequences and provide a training environment for users to improve their card counting skills.
+...
