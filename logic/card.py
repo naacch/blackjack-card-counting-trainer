@@ -30,7 +30,7 @@ class CardName(StrEnum):
 
 @dataclass
 class Card:
-    """ card class """
+    """ Card class """
     name: CardName
     suit: Suit
 
@@ -40,4 +40,4 @@ class Card:
     # TODO manejo de errores
     @property
     def image(self) -> Image:
-        return Image.open(f'gui/png/{self.name.value}{self.suit.value}.png')
+        return Image.open(f'ui/assets/{self.name.value}{self.suit.value}.png')

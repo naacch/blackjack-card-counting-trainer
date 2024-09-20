@@ -1,12 +1,15 @@
-from gui import GUI
-from logic.handlers.gui_handler import GUIHandler
+""" Main """
+
+from ui import MainView
+from logic import MainPresenter
 
 
 def main():
-    """ main function """
-    gui = GUI()
-    gui_handler = GUIHandler(gui)
-    gui.mainloop()
+    """ Main function """
+    ui = MainView()
+    presenter = MainPresenter(view=ui)
+    presenter.run()
+
 
 if __name__ == '__main__':
     main()
